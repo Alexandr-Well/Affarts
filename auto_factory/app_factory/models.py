@@ -55,8 +55,7 @@ class Auto(models.Model):
         return self.name
 
     def get_total_price(self):
-        sql = Auto.objects.filter(pk=self.pk).only('parts__detail__detail_type', 'parts__quantity').values(
-            'parts__detail__detail_type', 'parts__quantity', 'parts__detail__price')
+        sql = Auto.objects.filter(pk=self.pk).values('parts__detail__detail_type', 'parts__quantity', 'parts__detail__price')
         return sum(list(map(lambda item: item['parts__quantity'] * int(item['parts__detail__price']), sql))) * (
                 self.markup / 100 + 1)
 
